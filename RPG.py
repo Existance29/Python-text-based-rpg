@@ -10,12 +10,15 @@ while(end):
 
     if command.startswith('info'):
 
-        a = command.split()[1].lower()
+        args = command.split()[1].lower()
         for key in spellData:
             
-            if a == key['name'].lower().replace(" ", ""):
+            if args == key['name'].lower().replace(" ", ""):
                 print(key['name']+": "+ key['desc'])
                 break
+
+    if command.startswith("fight"):
+      print("WIP")
             
 
         
