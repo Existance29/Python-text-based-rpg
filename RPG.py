@@ -12,9 +12,9 @@ while(end):
 
         a = command.split()[1].lower()
         for key in spellData:
-            print(key)
+            
             if a == key['name'].lower().replace(" ", ""):
-                print(key['desc'])
+                print(key['name']+": "+ key['desc'])
                 break
             
 

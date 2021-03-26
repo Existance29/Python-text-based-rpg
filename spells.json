@@ -1,6 +1,6 @@
 [   {
     "name": "fireball",
-    "desc": "Shoot a fireball towards your enemy! ",
+    "desc": "Shoot a fireball towards your enemy, dealing a base damage of 20 ",
     "dmg": 20, 
     "dmgreduc": 0,
     "freezeTime": 0,
