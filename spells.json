@@ -17,6 +17,16 @@
     "healPerc": 0,
     "duration": 3
 
+    },
+    {
+    "name": "Health Potion",
+    "desc": "Gain 20 health points",
+    "dmg": 0,
+    "dmgreduc": 0,
+    "freezeTime": 0,
+    "healPerc": 20,
+    "duration": 1
+
     }
 ]
     
