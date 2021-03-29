@@ -12,21 +12,35 @@ def initBattle():
     move1 = 0
     move2 = 1
     myactiveSkills = []
-
+    activeSkillsInfo = []
+    
+    n = 0
     while(myHP > 0 or enHP > 0):
         print("\nYour Health: " + str(myHP))
         print("Enemy's Health: " + str(enHP))
         
         print("\n Pick a skill by typing the corresponding command: \n " + spellData[move1]['name'] + ": 1 \n " + spellData[move2]['name']+": 2 \n")
         while True:
-            n = input("command: ")
-            if myactiveSkills.includes(n-1):
+            n = int(input("command: "))
+            if (n-1) in myactiveSkills:
                 print("That skill is already in use! try again")
             else:
-                print("You used" + spellData[n]['name'])
+                print("You used " + spellData[n-1]['name'])
                 myactiveSkills.append(n-1)
+                activeSkillsInfo.append({"spellID": n-1, "turnsLeft": int(spellData[n-1]["duration"])})
                 break
-        enHP -= spellData[n]["damage"]
+        enHP -= int(spellData[n-1]["dmg"])
+        
+
+        for i in activeSkillsInfo:
+            if i['turnsLeft'] == 1:
+                
+                del myactiveSkills[activeSkillsInfo.index(i)]
+                activeSkillsInfo.remove(i)
+                
+            else:
+                i['turnsLeft'] -= 1
+
         
 
 while(end):
