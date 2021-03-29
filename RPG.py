@@ -15,7 +15,7 @@ def initBattle():
     activeSkillsInfo = []
     
     n = 0
-    while(myHP > 0 or enHP > 0):
+    while(myHP > 0 and enHP > 0):
         print("\nYour Health: " + str(myHP))
         print("Enemy's Health: " + str(enHP))
         
