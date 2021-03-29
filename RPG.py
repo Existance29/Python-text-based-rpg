@@ -20,11 +20,11 @@ def initBattle():
         print("\n Pick a skill by typing the corresponding command: \n " + spellData[move1]['name'] + ": 1 \n " + spellData[move2]['name']+": 2 \n")
         while True:
             n = input("command: ")
-            if myactiveSkills.includes(n):
+            if myactiveSkills.includes(n-1):
                 print("That skill is already in use! try again")
             else:
                 print("You used" + spellData[n]['name'])
-                myactiveSkills.append(n)
+                myactiveSkills.append(n-1)
                 break
         enHP -= spellData[n]["damage"]
         
