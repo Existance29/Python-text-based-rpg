@@ -40,7 +40,7 @@
 
     },
     {
-     "name": "Eat some food",
+     "name": "food",
      "desc": "gains 5 health points",
      "dmg": 0,
      "dmgperc": 0,

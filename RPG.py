@@ -8,8 +8,8 @@ with open('armour.json') as f:
     armour = json.load(f)
 with open('potions.json') as f:
     potions = json.load(f)
-with open('attacker_moves.json') as f:
-    attacker = json.load(f)
+with open('guard_moves.json') as f:
+    guard = json.load(f)
 with open('tank_moves.json') as f:
     tank = json.load(f)
 with open('mage_moves.json') as f:
@@ -25,7 +25,7 @@ def initBattle():
     print(" " + weapons[2] + ": 3")
     print(" " + weapons[3] + ": 4")
     class1, class2 = input(" weapons: ").split(" ")
-    classes = [attacker, tank, mage, medic]
+    classes = [guard, tank, mage, medic]
     class1 = int(class1)
     class2 = int(class2)
 

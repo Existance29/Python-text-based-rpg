@@ -39,7 +39,7 @@
   },
   {
     "name": "damage potion",
-    "desc": "absorbs 40% of damage recieved and use it next turn",
+    "desc": "absorbs 40% of damage received and use it next turn",
     "dmg": 0,
     "dmgperc": 0,
     "reflect_dmgperc": 0,
