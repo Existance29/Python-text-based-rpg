@@ -2,8 +2,9 @@
     "name": "fireball",
     "desc": "Shoot a fireball towards your enemy, dealing a base damage of 20 ",
     "dmg": 20, 
-    "dmgreduc": 0,
-    "freezeTime": 0,
+    "self_dmg_taken_reduc": 0,
+    "enemy_dmg_deal_reduc": 0,
+    "stunTime": 0,
     "healPerc": 0,
     "duration": 1
 
@@ -12,8 +13,9 @@
     "name": "Lingering Shields",
     "desc": "Reduces all incoming damage by 20% for 3 turns",
     "dmg": 0, 
-    "dmgreduc": 20,
-    "freezeTime": 0,
+    "self_dmg_taken_reduc": 20,
+    "enemy_dmg_deal_reduc": 0,
+    "stunTime": 0,
     "healPerc": 0,
     "duration": 3
 
@@ -23,7 +25,7 @@
     "desc": "Gain 20 health points",
     "dmg": 0,
     "dmgreduc": 0,
-    "freezeTime": 0,
+    "stunTime": 0,
     "healPerc": 20,
     "duration": 1
 
@@ -33,7 +35,7 @@
     "desc": "Skips the opponents next turn",
     "dmg": 0,
     "dmgreduc": 0,
-    "freezeTime": 1,
+    "stunTime": 1,
     "healPerc": 0,
     "duration": 0
 

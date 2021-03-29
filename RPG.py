@@ -2,7 +2,7 @@ end = 1
 
 import json
 
-with open('spells.json') as f:
+with open('main_character_moves.json') as f:
   spellData= json.load(f)
 
 def initBattle():
