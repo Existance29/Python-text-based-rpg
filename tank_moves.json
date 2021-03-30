@@ -11,10 +11,12 @@
     "stunTime": 0,
     "heal": 0,
     "healPerc": 0,
+    "HP_stealperc": 0,
     "additional_health": 0,
     "duration": 2,
     "money_cost": 0,
     "SP_cost": 10,
+    "SP_stealperc": 0,
     "BP_cost": 0,
     "Remove_debuff": 0
   },
@@ -30,10 +32,12 @@
     "stunTime": 0,
     "heal": 0,
     "healPerc": 0,
+    "HP_stealperc": 0,
     "additional_health": 0,
     "duration": 2,
     "money_cost": 0,
     "SP_cost": 20,
+    "SP_stealperc": 0,
     "BP_cost": 0,
     "Remove_debuff": 0
   },
@@ -49,10 +53,12 @@
     "stunTime": 0,
     "heal": 0,
     "healPerc": 0,
+    "HP_stealperc": 0,
     "additional_health": 0,
     "duration": 1,
     "money_cost": 0,
     "SP_cost": 30,
+    "SP_stealperc": 0,
     "BP_cost": 0,
     "Remove_debuff": 0
   }

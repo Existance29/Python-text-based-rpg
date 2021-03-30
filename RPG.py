@@ -19,11 +19,9 @@ with open('medic_moves.json') as f:
 
 def initBattle():
     weapons = ["Sword", "Shield", "Staff", "Wand"]
-    print("\n The buying phase has started \n choose 2 weapons seperated by a space")
-    print(" " + weapons[0] + ": 1")
-    print(" " + weapons[1] + ": 2")
-    print(" " + weapons[2] + ": 3")
-    print(" " + weapons[3] + ": 4")
+    print("\n The buying phase has started \n choose 2 weapons separated by a space")
+    for i in range(0, 4):
+        print(" " + weapons[i] + ": " + str(i+1))
     class1, class2 = input(" weapons: ").split(" ")
     classes = [guard, tank, mage, medic]
     class1 = int(class1)
@@ -31,13 +29,20 @@ def initBattle():
 
     myHP = 100
     enHP = 100
+    max_myHP = 100
+    max_enHP = 100
     mySP = 100
     enMP = 100
     myBP = 0
     enBP = 0
     myactiveSkills = []
     activeSkillsInfo = []
+    activeSKillslocation = []
     spellOptions = []
+    myBuff = []
+    myDebuff = []
+    enBuff = []
+    enDebuff = []
     for i in range(1,4):
         texting = ""
         if i == 1:
@@ -47,11 +52,11 @@ def initBattle():
         else:
             texting = "third"
         while True:
-            print("Pick your "+texting+ " basic spell by typing the correesponding command:")
+            print("Pick your " + texting + " basic spell by typing the corresponding command:")
             count = 1
             for b in spellData:
                 
-                print(" "+ str(b['name'])+" : "+str(count))
+                print(" " + str(b['name']) + " : " + str(count))
                 count += 1
             a = int(input())
           
@@ -89,12 +94,28 @@ def initBattle():
                 print("You used " + spellData[spellOptions[n-1]]['name'])
                 myactiveSkills.append(n-1)
                 activeSkillsInfo.append({"spellID": spellOptions[n-1], "turnsLeft": int(spellData[spellOptions[n-1]]["duration"])})
+                if n < 4:
+                    activeSKillslocation.append(spellData[spellOptions[n - 1]])
+                elif 3 < n < 7:
+                    activeSKillslocation.append(classes[class1 - 1][n - 4])
+                elif n > 10:
+                    activeSKillslocation.append(classes[class2 - 1][n - 7])
                 break
             
-        enHP -= int(spellData[spellOptions[n-1]]["dmg"])
+        for i in activeSKillslocation:
+            if i['dmg'] > 0:
+                enHP -= i['dmg']
+            if i['dmgperc'] > 0:
+                enHP -= i['dmgperc']/100*enHP
+            if i['heal'] > 0:
+                myHP += i['heal']
+                if myHP > max_myHP:
+                    myHP = max_myHP
+            if i['healPerc'] > 0:
+                myHP += i['healPerc']/100*max_myHP
+                if myHP > max_myHP:
+                    myHP = max_myHP
 
-        print(myactiveSkills)
-        print(activeSkillsInfo)
         for i in activeSkillsInfo:
             if i['turnsLeft'] == 1:
                 
