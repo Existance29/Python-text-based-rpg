@@ -1,5 +1,40 @@
 [
   {
-
+    "name": "holy water",
+    "desc": "gains 30% health",
+    "dmg": 0,
+    "dmgperc": 0,
+    "reflect_dmgperc": 0,
+    "absorbed_dmgperc": 0,
+    "self_dmg_taken_reduc": 20,
+    "enemy_dmg_deal_reduc": 0,
+    "stunTime": 0,
+    "heal": 0,
+    "healPerc": 30,
+    "additional_health": 0,
+    "duration": 2,
+    "money_cost": 0,
+    "SP_cost": 20,
+    "BP_cost": 0,
+    "Remove_debuff": 0
+  },
+  {
+    "name": "",
+    "desc": "gains 30% health",
+    "dmg": 0,
+    "dmgperc": 0,
+    "reflect_dmgperc": 0,
+    "absorbed_dmgperc": 0,
+    "self_dmg_taken_reduc": 20,
+    "enemy_dmg_deal_reduc": 0,
+    "stunTime": 0,
+    "heal": 0,
+    "healPerc": 30,
+    "additional_health": 0,
+    "duration": 2,
+    "money_cost": 0,
+    "SP_cost": 20,
+    "BP_cost": 0,
+    "Remove_debuff": 0
   }
 ]

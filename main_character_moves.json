@@ -20,8 +20,8 @@
 
     },
     {
-    "name": "Shield",
-    "desc": "Reduces all incoming damage by 10% for the next turn",
+    "name": "Lingering Shield",
+    "desc": "Reduces all incoming damage by 10% for the next 3 turn",
     "dmg": 0,
     "dmgperc": 0,
     "reflect_dmgperc": 0,
@@ -32,31 +32,31 @@
     "heal": 0,
     "healPerc": 0,
     "additional_health": 0,
-    "duration": 1,
+    "duration": 3,
     "money_cost": 0,
     "SP_cost": 0,
     "BP_cost": 0,
     "Remove_debuff": 0
 
     },
-    {
-     "name": "food",
-     "desc": "gains 5 health points",
-     "dmg": 0,
-     "dmgperc": 0,
-     "reflect_dmgperc": 0,
-     "absorbed_dmgperc": 0,
-     "self_dmg_taken_reduc": 0,
-     "enemy_dmg_deal_reduc": 0,
-     "stunTime": 0,
-     "heal": 0,
-     "healPerc": 0,
-     "additional_health": 0,
-     "duration": 1,
-     "money_cost": 0,
-     "SP_cost": 0,
-     "BP_cost": 0,
-     "Remove_debuff": 0
-    }
+  {
+    "name": "food",
+    "desc": "gains 5 health points",
+    "dmg": 0,
+    "dmgperc": 0,
+    "reflect_dmgperc": 0,
+    "absorbed_dmgperc": 0,
+    "self_dmg_taken_reduc": 0,
+    "enemy_dmg_deal_reduc": 0,
+    "stunTime": 0,
+    "heal": 0,
+    "healPerc": 0,
+    "additional_health": 0,
+    "duration": 1,
+    "money_cost": 0,
+    "SP_cost": 0,
+    "BP_cost": 0,
+    "Remove_debuff": 0
+  }
 ]
     
