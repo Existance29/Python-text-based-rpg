@@ -1,6 +1,7 @@
 end = 1
 
 import json
+import time
 
 with open('main_character_moves.json') as f:
   spellData = json.load(f)
@@ -16,6 +17,15 @@ with open('mage_moves.json') as f:
     mage = json.load(f)
 with open('medic_moves.json') as f:
     medic = json.load(f)
+
+def myRound(n):
+    a = str(n)
+    b, c = a.split(".")
+    if int(c[0]) >= 5:
+        d = int(b) + 1
+        return d
+    else:
+        return int(b)
 
 def initBattle():
     weapons = ["Sword", "Shield", "Staff", "Wand"]
@@ -43,6 +53,7 @@ def initBattle():
     myDebuff = []
     enBuff = []
     enDebuff = []
+    turn = 0
     for i in range(1,4):
         texting = ""
         if i == 1:
@@ -73,7 +84,8 @@ def initBattle():
     while(myHP > 0 and enHP > 0):
         print("\n Your Health: " + str(myHP))
         print(" Enemy's Health: " + str(enHP))
-        
+        if turn >= 1:
+            time.sleep(3)
         print("\n Pick a skill by typing the corresponding command:")
         print(" " + spellData[spellOptions[0]]['name'] + ": 1")
         print(" " + spellData[spellOptions[1]]['name'] + ": 2")
@@ -91,40 +103,43 @@ def initBattle():
             if (n-1) in myactiveSkills:
                 print("That skill is already in use! try again")
             else:
-                print("You used " + spellData[spellOptions[n-1]]['name'])
-                myactiveSkills.append(n-1)
-                activeSkillsInfo.append({"spellID": spellOptions[n-1], "turnsLeft": int(spellData[spellOptions[n-1]]["duration"])})
                 if n < 4:
-                    activeSKillslocation.append(spellData[spellOptions[n - 1]])
+                    print("You used " + spellData[spellOptions[n - 1]]['name'])
+                    activeSkillsInfo.append({"spellID": spellData[spellOptions[n - 1]], "turnsLeft": int(spellData[spellOptions[n - 1]]["duration"])})
                 elif 3 < n < 7:
-                    activeSKillslocation.append(classes[class1 - 1][n - 4])
-                elif n > 10:
-                    activeSKillslocation.append(classes[class2 - 1][n - 7])
+                    print("You used " + classes[class1-1][n-4]['name'])
+                    activeSkillsInfo.append({"spellID": classes[class1 - 1][n - 4], "turnsLeft": int(classes[class1 - 1][n - 4]["duration"])})
+                elif 6 < n < 10:
+                    print("You used " + classes[class2 - 1][n - 7]['name'])
+                    activeSkillsInfo.append({"spellID": classes[class2 - 1][n - 7], "turnsLeft": int(classes[class2 - 1][n - 7]["duration"])})
+                myactiveSkills.append(n-1)
                 break
-            
-        for i in activeSKillslocation:
-            if i['dmg'] > 0:
-                enHP -= i['dmg']
-            if i['dmgperc'] > 0:
-                enHP -= i['dmgperc']/100*enHP
-            if i['heal'] > 0:
-                myHP += i['heal']
-                if myHP > max_myHP:
-                    myHP = max_myHP
-            if i['healPerc'] > 0:
-                myHP += i['healPerc']/100*max_myHP
-                if myHP > max_myHP:
-                    myHP = max_myHP
 
         for i in activeSkillsInfo:
+            if i["spellID"]['dmg'] > 0:
+                enHP -= i["spellID"]['dmg']
+                print(i["spellID"]['name'] + " dealt " + str(i["spellID"]['dmg']) + " damage")
+            if i["spellID"]['dmgperc'] > 0:
+                dmg = myRound(i["spellID"]['dmgperc']/100*enHP)
+                enHP -= dmg
+                print(i["spellID"]['name'] + " dealt " + str(dmg) + " damage")
+            if i["spellID"]['heal'] > 0:
+                myHP += i["spellID"]['heal']
+                if myHP > max_myHP:
+                    myHP = max_myHP
+            if i["spellID"]['healPerc'] > 0:
+                myHP += myRound(i["spellID"]['healPerc']/100*max_myHP)
+                if myHP > max_myHP:
+                    myHP = max_myHP
+        turn += 1
+        for i in activeSkillsInfo:
             if i['turnsLeft'] == 1:
-                
+
                 del myactiveSkills[activeSkillsInfo.index(i)]
                 activeSkillsInfo.remove(i)
-                
+
             else:
                 i['turnsLeft'] -= 1
-
         
 
 while(end):
