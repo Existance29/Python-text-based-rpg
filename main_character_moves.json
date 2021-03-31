@@ -53,7 +53,7 @@
     "self_dmg_taken_reduc": 0,
     "enemy_dmg_deal_reduc": 0,
     "stunTime": 0,
-    "heal": 0,
+    "heal": 5,
     "healPerc": 0,
     "HP_stealperc": 0,
     "additional_health": 0,

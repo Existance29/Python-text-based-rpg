@@ -112,8 +112,8 @@ def initBattle():
                 elif 6 < n < 10:
                     print("You used " + classes[class2 - 1][n - 7]['name'])
                     activeSkillsInfo.append({"spellID": classes[class2 - 1][n - 7], "turnsLeft": int(classes[class2 - 1][n - 7]["duration"])})
-                myactiveSkills.append(n-1)
-                break
+            myactiveSkills.append(n-1)
+            break
 
         for i in activeSkillsInfo:
             if i["spellID"]['dmg'] > 0:
@@ -124,12 +124,20 @@ def initBattle():
                 enHP -= dmg
                 print(i["spellID"]['name'] + " dealt " + str(dmg) + " damage")
             if i["spellID"]['heal'] > 0:
+                print(str(i["spellID"]['name']))
+                HP = myHP
                 myHP += i["spellID"]['heal']
                 if myHP > max_myHP:
+                    print(str(i["spellID"]['name']) + " healed " + str(max_myHP - HP) + " health points")
                     myHP = max_myHP
+                else:
+                    print(str(i["spellID"]['name']) + " healed " + str(i["spellID"]['heal']) + " health points")
             if i["spellID"]['healPerc'] > 0:
-                myHP += myRound(i["spellID"]['healPerc']/100*max_myHP)
+                HP = myHP
+                heal = myRound(i["spellID"]['healPerc']/100*max_myHP)
+                myHP += heal
                 if myHP > max_myHP:
+                    print(str(i["spellID"]['name']) + " healed " + str(max_myHP - HP) + " health points")
                     myHP = max_myHP
         turn += 1
         for i in activeSkillsInfo:
