@@ -85,7 +85,7 @@ def initBattle():
         print("\n Your Health: " + str(myHP))
         print(" Enemy's Health: " + str(enHP))
         if turn >= 1:
-            time.sleep(3)
+            time.sleep(1)
         print("\n Pick a skill by typing the corresponding command:")
         print(" " + spellData[spellOptions[0]]['name'] + ": 1")
         print(" " + spellData[spellOptions[1]]['name'] + ": 2")
@@ -139,6 +139,7 @@ def initBattle():
                 if myHP > max_myHP:
                     print(str(i["spellID"]['name']) + " healed " + str(max_myHP - HP) + " health points")
                     myHP = max_myHP
+
         turn += 1
         for i in activeSkillsInfo:
             if i['turnsLeft'] == 1:
