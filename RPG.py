@@ -54,6 +54,7 @@ def initBattle():
     enBuff = []
     enDebuff = []
     turn = 0
+    less_dmg = 0
     for i in range(1,4):
         texting = ""
         if i == 1:
@@ -112,17 +113,31 @@ def initBattle():
                 elif 6 < n < 10:
                     print("You used " + classes[class2 - 1][n - 7]['name'])
                     activeSkillsInfo.append({"spellID": classes[class2 - 1][n - 7], "turnsLeft": int(classes[class2 - 1][n - 7]["duration"])})
-            myactiveSkills.append(n-1)
-            break
+                myactiveSkills.append(n-1)
+                break
 
         for i in activeSkillsInfo:
             if i["spellID"]['dmg'] > 0:
-                enHP -= i["spellID"]['dmg']
-                print(i["spellID"]['name'] + " dealt " + str(i["spellID"]['dmg']) + " damage")
+                for n in enBuff:
+                    if n["enemy_dmg_deal_reduc"] > 0:
+                        less_dmg += n["enemy_dmg_deal_reduc"]
+                    if less_dmg > 100:
+                        less_dmg == 100
+                less_dmg -= 100
+                enHP -= abs(less_dmg/100)*i["spellID"]['dmg']
+                print(i["spellID"]['name'] + " dealt " + str(abs(less_dmg/100)*i["spellID"]['dmg']) + " damage")
+                less_dmg = 0
             if i["spellID"]['dmgperc'] > 0:
-                dmg = myRound(i["spellID"]['dmgperc']/100*enHP)
+                for n in enBuff:
+                    if n["enemy_dmg_deal_reduc"] > 0:
+                        less_dmg += n["enemy_dmg_deal_reduc"]
+                    if less_dmg > 100:
+                        less_dmg == 100
+                less_dmg -= 100
+                dmg = abs(less_dmg/100)*myRound(i["spellID"]['dmgperc']/100*enHP)
                 enHP -= dmg
                 print(i["spellID"]['name'] + " dealt " + str(dmg) + " damage")
+                less_dmg = 0
             if i["spellID"]['heal'] > 0:
                 print(str(i["spellID"]['name']))
                 HP = myHP
@@ -139,8 +154,13 @@ def initBattle():
                 if myHP > max_myHP:
                     print(str(i["spellID"]['name']) + " healed " + str(max_myHP - HP) + " health points")
                     myHP = max_myHP
+            if i["spellID"]["self_dmg_taken_reduc"] > 0:
+                myBuff.append({"self_dmg_taken_reduc": i["spellID"]["self_dmg_taken_reduc"]})
+            if i['spellID']["enemy_dmg_deal_reduc"] > 0:
+                myBuff.append({"enemy_dmg_deal_reduc": i['spellID']["enemy_dmg_deal_reduc"]})
 
         turn += 1
+
         for i in activeSkillsInfo:
             if i['turnsLeft'] == 1:
 
