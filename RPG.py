@@ -143,7 +143,7 @@ def initBattle():
                 HP = myHP
                 myHP += i["spellID"]['heal']
                 if myHP > max_myHP:
-                    print(str(i["spellID"]['name']) + " healed " + str(max_myHP - HP) + " health points")
+                    print(str(i["spellID"]['name']) + " healed " + str(i["spellID"]['heal'] - max_myHP - HP) + " health points")
                     myHP = max_myHP
                 else:
                     print(str(i["spellID"]['name']) + " healed " + str(i["spellID"]['heal']) + " health points")
@@ -152,12 +152,25 @@ def initBattle():
                 heal = myRound(i["spellID"]['healPerc']/100*max_myHP)
                 myHP += heal
                 if myHP > max_myHP:
-                    print(str(i["spellID"]['name']) + " healed " + str(max_myHP - HP) + " health points")
+                    print(str(i["spellID"]['name']) + " healed " + str(heal - max_myHP - HP) + " health points")
                     myHP = max_myHP
+                else:
+                    print(str(i["spellID"]['name']) + " healed " + str(heal) + " health points")
             if i["spellID"]["self_dmg_taken_reduc"] > 0:
                 myBuff.append({"self_dmg_taken_reduc": i["spellID"]["self_dmg_taken_reduc"]})
             if i['spellID']["enemy_dmg_deal_reduc"] > 0:
-                myBuff.append({"enemy_dmg_deal_reduc": i['spellID']["enemy_dmg_deal_reduc"]})
+                enDebuff.append({"enemy_dmg_deal_reduc": i['spellID']["enemy_dmg_deal_reduc"]})
+            if i["spellID"]["stunTime"] > 0:
+                enDebuff.append({"stunTime": i["spellID"]["stunTime"]})
+            if i["spellID"]["HP_stealperc"] > 0:
+                steal_hp = myRound((i["spellID"]["HP_stealperc"]/100)*enHP)
+                enHP -= steal_hp
+                myHP += steal_hp
+                if myHP > max_myHP:
+                    print(str(i["spellID"]['name']) + " stole " + str(steal_hp - max_myHP - HP) + " health points")
+                    myHP = max_myHP
+                else:
+                    print(str(i["spellID"]['name']) + " stole " + str(steal_hp) + " health points")
 
         turn += 1
 
