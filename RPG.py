@@ -187,19 +187,33 @@ def initBattle():
 while(end):
     command = input("Input a command: ")
 
-    if command.startswith('spellinfo'):
+    if command.startswith('basicspellinfo'):
 
-        args = command.split()[1].lower()
+     
         for key in spellData:
-            
-            if args == key['name'].lower().replace(" ", ""):
                 print("\n "+key['name']+": "+ key['desc'])
-                break
+                
 
     if command.startswith("fight"):
 
       initBattle()
 
+    if command.startswith("classspellinfo"):
+        classes = [guard,tank,mage,medic]
+        print("\n Guard Class spells:")
+        for key in guard:
+                print(key['name']+": "+ key['desc'])
+        print("\n Tank Class spells:")
+        for key in tank:
+                print(key['name']+": "+ key['desc'])
+        print("\n Mage Class spells:")
+        for key in mage:
+                print(key['name']+": "+ key['desc'])
+        print("\n Medic Class spells:")
+        for key in medic:
+                print(key['name']+": "+ key['desc'])
+        
+        
     
 
     if command.startswith("exit"):
