@@ -52,7 +52,7 @@
     "enemy_dmg_deal_reduc": 0,
     "stunTime": 0,
     "heal": 0,
-    "healPerc": 30,
+    "healPerc": 0,
     "HP_stealperc": 0,
     "additional_health": 0,
     "duration": 1,

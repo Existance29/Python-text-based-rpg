@@ -2,6 +2,7 @@ end = 1
 
 import json
 import time
+import random
 
 with open('main_character_moves.json') as f:
   spellData = json.load(f)
@@ -55,7 +56,7 @@ def initBattle():
     enDebuff = []
     turn = 0
     less_dmg = 0
-    for i in range(1,4):
+    for i in range(1, 4):
         texting = ""
         if i == 1:
             texting = "first"
@@ -171,6 +172,10 @@ def initBattle():
                     myHP = max_myHP
                 else:
                     print(str(i["spellID"]['name']) + " stole " + str(steal_hp) + " health points")
+            if i["spellID"]["reflect_dmgperc"]:
+                myBuff.append({"reflect_dmgperc": i["spellID"]["reflect_dmgperc"]})
+            if i["spellID"]["absorbed_dmgperc"]:
+                myBuff.append({"absorbed_dmgperc": i["spellID"]["absorbed_dmgperc"]})
 
         turn += 1
 
@@ -182,7 +187,12 @@ def initBattle():
 
             else:
                 i['turnsLeft'] -= 1
-        
+
+        enClass1 = classes[random.randint(0, 3)]
+        enClass2 = classes[random.randint(0, 3)]
+        while enClass2 == enClass1:
+            enClass2 = classes[random.randint(0, 3)]
+
 
 while(end):
     command = input("Input a command: ")
