@@ -46,14 +46,17 @@ def initBattle():
     enMP = 100
     myBP = 0
     enBP = 0
+    enspells = 0
     myactiveSkills = []
     activeSkillsInfo = []
-    activeSKillslocation = []
     spellOptions = []
+    enspellOptions = []
     myBuff = []
     myDebuff = []
     enBuff = []
     enDebuff = []
+    enactiveSkills = []
+    enactiveSkillsInfo = []
     turn = 0
     less_dmg = 0
     for i in range(1, 4):
@@ -192,6 +195,29 @@ def initBattle():
         enClass2 = classes[random.randint(0, 3)]
         while enClass2 == enClass1:
             enClass2 = classes[random.randint(0, 3)]
+        while len(enspellOptions) < 3:
+            enspells = random.randint((0, len(spellOptions)))
+            while enspells in enspellOptions:
+                enspells = random.randint((0, len(spellOptions)))
+            enspellOptions.append(enspells)
+        n = random.randint(1, 9)
+        while (n - 1) in enactiveSkills:
+            n = random.randint(1, 9)
+        else:
+            if n < 4:
+                print("Opponent used " + spellData[spellOptions[n - 1]]['name'])
+                enactiveSkillsInfo.append({"spellID": spellData[spellOptions[n - 1]], "turnsLeft": int(spellData[spellOptions[n - 1]]["duration"])})
+            elif 3 < n < 7:
+                print("Opponent used " + classes[class1 - 1][n - 4]['name'])
+                enactiveSkillsInfo.append({"spellID": classes[class1 - 1][n - 4], "turnsLeft": int(classes[class1 - 1][n - 4]["duration"])})
+            elif 6 < n < 10:
+                print("Opponent used " + classes[class2 - 1][n - 7]['name'])
+                enactiveSkillsInfo.append({"spellID": classes[class2 - 1][n - 7], "turnsLeft": int(classes[class2 - 1][n - 7]["duration"])})
+            enactiveSkills.append(n - 1)
+
+
+
+
 
 
 while(end):
