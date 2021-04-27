@@ -31,7 +31,7 @@ def myRound(n):
 def initBattle():
     weapons = ["Sword", "Shield", "Staff", "Wand"]
     print("\n The buying phase has started \n choose 2 weapons separated by a space")
-    
+
     for i in range(0, 4):
         print(" " + weapons[i] + ": " + str(i+1))
     while True:
@@ -81,16 +81,16 @@ def initBattle():
             print("Pick your " + texting + " basic spell by typing the corresponding command:")
             count = 1
             for b in spellData:
-                
+
                 print(" " + str(b['name']) + " : " + str(count))
                 count += 1
             a = int(input())
-          
+
             if a-1 not in spellOptions:
                 break
             else:
                 print("you already have selected this skill! Select another one ")
-            
+
         spellOptions.append(a-1)
 
     enClass1 = random.randint(0, 3)
@@ -102,9 +102,9 @@ def initBattle():
         while enspells in enspellOptions:
             enspells = random.randint(0, len(spellOptions))
         enspellOptions.append(enspells)
-            
 
-    
+
+
     n = 0
     while(myHP > 0 and enHP > 0):
         if myStun == 0:
@@ -129,7 +129,7 @@ def initBattle():
         print(" " + classes[class2-1][1]['name'] + ": 8")
         print(" " + classes[class2-1][2]['name'] + ": 9")
 
-        
+
         while myStun == 0:
             n = int(input(" command: "))
             if (n-1) in myactiveSkills:
@@ -201,8 +201,11 @@ def initBattle():
                         if n["enemy_dmg_deal_reduc"] > 0:
                             less_dmg += n["enemy_dmg_deal_reduc"]
                     for n in enBuff:
-                        if n["self_dmg_taken_reduc"] > 0:
-                            less_dmg += n["self_dmg_taken_reduc"]
+                        try:
+                            if n["self_dmg_taken_reduc"] > 0:
+                                less_dmg += n["self_dmg_taken_reduc"]
+                        except:
+                            pass
                     if less_dmg > 100:
                         less_dmg == 100
                     less_dmg -= 100
@@ -472,10 +475,10 @@ while(end):
 
     if command.startswith('basicspellinfo'):
 
-     
+
         for key in spellData:
                 print("\n "+key['name']+": "+ key['desc'])
-                
+
 
     if command.startswith("fight"):
 
@@ -497,13 +500,13 @@ while(end):
         print("\n ===Medic Class spells===\n weapon: wand")
         for key in medic:
                 print(" "+key['name'] + ": " + key['desc'])
-        
-        
-    
+
+
+
 
     if command.startswith("exit"):
       end = 0
-            
 
-        
+
+
 
