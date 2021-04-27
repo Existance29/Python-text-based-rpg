@@ -22,7 +22,7 @@
   },
   {
     "name": "potion of buff",
-    "desc": "increase dmg by 20% and reduce damage taken by 20% for 2 turns",
+    "desc": "deal 20% damage and reduce damage taken by 20% for 2 turns",
     "dmg": 0,
     "dmgperc": 20,
     "reflect_dmgperc": 0,
