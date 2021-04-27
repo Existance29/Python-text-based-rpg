@@ -31,12 +31,20 @@ def myRound(n):
 def initBattle():
     weapons = ["Sword", "Shield", "Staff", "Wand"]
     print("\n The buying phase has started \n choose 2 weapons separated by a space")
+    
     for i in range(0, 4):
         print(" " + weapons[i] + ": " + str(i+1))
-    class1, class2 = input(" weapons: ").split(" ")
-    classes = [guard, tank, mage, medic]
-    class1 = int(class1)
-    class2 = int(class2)
+    while True:
+        try:
+            class1, class2 = input(" weapons: ").split(" ")
+            classes = [guard, tank, mage, medic]
+            class1 = int(class1)
+            class2 = int(class2)
+            if class1 < 5 and class1 > 0 and class2 < 5 and class2 > 0 and class2 != class1:
+                break
+        except:
+            pass
+        print(" incorrect format (are the weapons seperated by a space, valid numbers and are not equal?) ")
 
     myHP = 100
     enHP = 100
@@ -472,21 +480,23 @@ while(end):
     if command.startswith("fight"):
 
       initBattle()
+    if command.startswith("help"):
 
+      print("\n ===commands=== \n basicspellinfo: shows all basic spells and their information \n classspellinfo: shows all classes' spells and their information \n fight: initiate a fight with a AI")
     if command.startswith("classspellinfo"):
         classes = [guard, tank, mage, medic]
-        print("\n Guard Class spells:")
+        print("\n ===Guard Class spells===\n weapon: sword")
         for key in guard:
-                print(key['name'] + ": " + key['desc'])
-        print("\n Tank Class spells:")
+                print(" "+key['name'] + ": " + key['desc'])
+        print("\n ===Tank Class spells===\n weapon: shield")
         for key in tank:
-                print(key['name'] + ": " + key['desc'])
-        print("\n Mage Class spells:")
+                print(" "+key['name'] + ": " + key['desc'])
+        print("\n ===Mage Class spells===\n weapon: staff")
         for key in mage:
-                print(key['name'] + ": " + key['desc'])
-        print("\n Medic Class spells:")
+                print(" "+key['name'] + ": " + key['desc'])
+        print("\n ===Medic Class spells===\n weapon: wand")
         for key in medic:
-                print(key['name'] + ": " + key['desc'])
+                print(" "+key['name'] + ": " + key['desc'])
         
         
     
