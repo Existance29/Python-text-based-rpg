@@ -109,6 +109,7 @@ def initBattle():
 
         if turn >= 1:
             time.sleep(2)
+            print("\n---------------------------------------------------")
         print("\n Pick a skill by typing the corresponding command:")
         print(" " + spellData[spellOptions[0]]['name'] + ": 1")
         print(" " + spellData[spellOptions[1]]['name'] + ": 2")
@@ -362,8 +363,11 @@ def initBattle():
                         if n["enemy_dmg_deal_reduc"] > 0:
                             less_dmg += n["enemy_dmg_deal_reduc"]
                     for n in myBuff:
-                        if n["self_dmg_taken_reduc"] > 0:
-                            less_dmg += n["enemy_dmg_deal_reduc"]
+                        try:
+                            if n["self_dmg_taken_reduc"] > 0:
+                                less_dmg += n["enemy_dmg_deal_reduc"]
+                        except:
+                            pass
                     if less_dmg > 100:
                         less_dmg == 100
                     less_dmg -= 100
