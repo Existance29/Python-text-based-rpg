@@ -218,12 +218,15 @@ def initBattle():
                             print("Enemy reflected " + str(reflected_dmg) + " damage")
                             time.sleep(2)
                     for n in enBuff:
-                        if n["absorbed_dmgperc"] > 0:
-                            absorbed_dmg = myRound((n["absorbed_dmgperc"]/100)*dmg)
-                            dmg -= absorbed_dmg
-                            print("Enemy absorbed " + str(absorbed_dmg) + " damage")
-                            time.sleep(2)
-                            en_absorbed = absorbed_dmg
+                        try:
+                            if n["absorbed_dmgperc"] > 0:
+                                absorbed_dmg = myRound((n["absorbed_dmgperc"] / 100) * dmg)
+                                dmg -= absorbed_dmg
+                                print("Enemy absorbed " + str(absorbed_dmg) + " damage")
+                                time.sleep(2)
+                                en_absorbed = absorbed_dmg
+                        except:
+                            pass
                     if my_absorbed > 0:
                         dmg += my_absorbed
                     enHP -= dmg
@@ -350,12 +353,15 @@ def initBattle():
                     less_dmg -= 100
                     dmg = abs(less_dmg / 100) * i["spellID"]['dmg']
                     for n in myBuff:
-                        if n["reflect_dmgperc"] > 0:
-                            reflected_dmg = myRound((n["reflect_dmgperc"]/100)*dmg)
-                            dmg -= reflected_dmg
-                            enHP -= reflected_dmg
-                            print("You reflected " + str(reflected_dmg) + " damage")
-                            time.sleep(2)
+                        try:
+                            if n["reflect_dmgperc"] > 0:
+                                reflected_dmg = myRound((n["reflect_dmgperc"] / 100) * dmg)
+                                dmg -= reflected_dmg
+                                enHP -= reflected_dmg
+                                print("You reflected " + str(reflected_dmg) + " damage")
+                                time.sleep(2)
+                        except:
+                            pass
                     for n in myBuff:
                         if n["absorbed_dmgperc"] > 0:
                             absorbed_dmg = myRound((n["absorbed_dmgperc"]/100)*dmg)
