@@ -510,13 +510,6 @@ def initBattle():
             else:
                 myturnsleft[myindex] -= 1
 
-        print(myturnsleft)
-        print(enturnsleft)
-        print(myactiveSkills)
-        print(enactiveSkills)
-
-
-
 while(end):
     command = input("Input a command: ")
 
