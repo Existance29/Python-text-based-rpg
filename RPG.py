@@ -67,6 +67,8 @@ def initBattle():
     enDebuff = []
     enactiveSkills = []
     enactiveSkillsInfo = []
+    myturnsleft = []
+    enturnsleft = []
     turn = 0
     less_dmg = 0
     for i in range(1, 4):
@@ -118,19 +120,18 @@ def initBattle():
         if turn >= 1:
             time.sleep(2)
             print("\n---------------------------------------------------")
-        print("\n Pick a skill by typing the corresponding command:")
-        print(" " + spellData[spellOptions[0]]['name'] + ": 1")
-        print(" " + spellData[spellOptions[1]]['name'] + ": 2")
-        print(" " + spellData[spellOptions[2]]['name'] + ": 3")
-        print(" " + classes[class1-1][0]['name'] + ": 4")
-        print(" " + classes[class1-1][1]['name'] + ": 5")
-        print(" " + classes[class1-1][2]['name'] + ": 6")
-        print(" " + classes[class2-1][0]['name'] + ": 7")
-        print(" " + classes[class2-1][1]['name'] + ": 8")
-        print(" " + classes[class2-1][2]['name'] + ": 9")
-
 
         while myStun == 0:
+            print("\n Pick a skill by typing the corresponding command:")
+            print(" " + spellData[spellOptions[0]]['name'] + ": 1")
+            print(" " + spellData[spellOptions[1]]['name'] + ": 2")
+            print(" " + spellData[spellOptions[2]]['name'] + ": 3")
+            print(" " + classes[class1 - 1][0]['name'] + ": 4")
+            print(" " + classes[class1 - 1][1]['name'] + ": 5")
+            print(" " + classes[class1 - 1][2]['name'] + ": 6")
+            print(" " + classes[class2 - 1][0]['name'] + ": 7")
+            print(" " + classes[class2 - 1][1]['name'] + ": 8")
+            print(" " + classes[class2 - 1][2]['name'] + ": 9")
             n = int(input(" command: "))
             if (n-1) in myactiveSkills:
                 print("That skill is already in use! try again")
@@ -141,17 +142,20 @@ def initBattle():
             else:
                 if n < 4:
                     print("\nYou used " + spellData[spellOptions[n - 1]]['name'])
-                    activeSkillsInfo.append({"spellID": spellData[spellOptions[n - 1]], "turnsLeft": int(spellData[spellOptions[n - 1]]["duration"])})
+                    activeSkillsInfo.append({"spellID": spellData[spellOptions[n - 1]]})
+                    myturnsleft.append(int(spellData[spellOptions[n - 1]]["duration"]))
                 elif 3 < n < 7:
                     cost = classes[class2-1][n-4]["SP_cost"]
                     print("\nYou used " + classes[class1-1][n-4]['name'])
                     mySP -= cost
-                    activeSkillsInfo.append({"spellID": classes[class1 - 1][n - 4], "turnsLeft": int(classes[class1 - 1][n - 4]["duration"])})
+                    activeSkillsInfo.append({"spellID": classes[class1 - 1][n - 4]})
+                    myturnsleft.append(int(classes[class1 - 1][n - 4]["duration"]))
                 elif 6 < n < 10:
                     cost = classes[class2 - 1][n - 7]["SP_cost"]
                     print("\nYou used " + classes[class2 - 1][n - 7]['name'])
                     mySP -= cost
-                    activeSkillsInfo.append({"spellID": classes[class2 - 1][n - 7], "turnsLeft": int(classes[class2 - 1][n - 7]["duration"])})
+                    activeSkillsInfo.append({"spellID": classes[class2 - 1][n - 7]})
+                    myturnsleft.append(int(classes[class2 - 1][n - 7]["duration"]))
                 myactiveSkills.append(n-1)
                 break
         if myStun == 0:
@@ -327,20 +331,20 @@ def initBattle():
                     n = random.randint(1, 9)
             if n < 4:
                 print("\nOpponent used " + spellData[spellOptions[n - 1]]['name'])
-                enactiveSkillsInfo.append({"spellID": spellData[spellOptions[n - 1]],
-                                           "turnsLeft": int(spellData[spellOptions[n - 1]]["duration"])})
+                enactiveSkillsInfo.append({"spellID": spellData[spellOptions[n - 1]]})
+                enturnsleft.append(int(spellData[spellOptions[n - 1]]["duration"]))
             elif 3 < n < 7:
                 cost = classes[enClass1 - 1][n - 4]["SP_cost"]
                 print("\nOpponent used " + classes[class1 - 1][n - 4]['name'])
                 enSP -= cost
-                enactiveSkillsInfo.append({"spellID": classes[class1 - 1][n - 4],
-                                           "turnsLeft": int(classes[class1 - 1][n - 4]["duration"])})
+                enactiveSkillsInfo.append({"spellID": classes[class1 - 1][n - 4]})
+                enturnsleft.append(int(classes[class1 - 1][n - 4]["duration"]))
             elif 6 < n < 10:
                 cost = classes[enClass2 - 1][n - 7]["SP_cost"]
                 print("\nOpponent used " + classes[class2 - 1][n - 7]['name'])
                 enSP -= cost
-                enactiveSkillsInfo.append({"spellID": classes[class2 - 1][n - 7],
-                                           "turnsLeft": int(classes[class2 - 1][n - 7]["duration"])})
+                enactiveSkillsInfo.append({"spellID": classes[class2 - 1][n - 7]})
+                enturnsleft.append(int(classes[class2 - 1][n - 7]["duration"]))
             enactiveSkills.append(n - 1)
 
             for i in enactiveSkillsInfo:
@@ -481,24 +485,35 @@ def initBattle():
         if enStun > 0:
             enStun -= 1
 
-        for i in enactiveSkillsInfo:
-            if i['turnsLeft'] == 1:
+        enindex = 0
+        myindex = 0
 
-                del enactiveSkills[enactiveSkillsInfo.index(i)]
-                enactiveSkillsInfo.remove(i)
+        for i in range(0, len(enturnsleft)):
+            if enturnsleft[i - enindex] == 1:
 
-
-            else:
-                i['turnsLeft'] -= 1
-
-        for i in activeSkillsInfo:
-            if i['turnsLeft'] == 1:
-
-                del myactiveSkills[activeSkillsInfo.index(i)]
-                activeSkillsInfo.remove(i)
+                del enactiveSkills[i - enindex]
+                del enactiveSkillsInfo[i - enindex]
+                del enturnsleft[i - enindex]
+                enindex += 1
 
             else:
-                i['turnsLeft'] -= 1
+                enturnsleft[i - enindex] -= 1
+
+        for i in range(0, len(myturnsleft)):
+            if myturnsleft[i - myindex] == 1:
+
+                del myactiveSkills[i - myindex]
+                del activeSkillsInfo[i - myindex]
+                del myturnsleft[i - myindex]
+                myindex += 1
+
+            else:
+                myturnsleft[myindex] -= 1
+
+        print(myturnsleft)
+        print(enturnsleft)
+        print(myactiveSkills)
+        print(enactiveSkills)
 
 
 
