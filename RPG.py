@@ -20,23 +20,9 @@ with open('medic_moves.json') as f:
     medic = json.load(f)
 
 def initBattle():
-    weapons = ["Sword", "Shield", "Staff", "Wand"]
-    print("\n The buying phase has started \n choose 2 weapons separated by a space")
 
-    for i in range(0, 4):
-        print(" " + weapons[i] + ": " + str(i+1))
-    while True:
-        try:
-            class1, class2 = input(" weapons: ").split(" ")
-            classes = [guard, tank, mage, medic]
-            class1 = int(class1)
-            class2 = int(class2)
-            if class1 < 5 and class1 > 0 and class2 < 5 and class2 > 0 and class2 != class1:
-                break
-        except:
-            pass
-        print(" incorrect format (are the weapons seperated by a space, valid numbers and are not equal?) ")
-
+    my_money = 1000
+    en_money = 1000
     myHP = 100
     enHP = 100
     max_myHP = 100
@@ -64,8 +50,50 @@ def initBattle():
     endebuffturnsleft = []
     mybuffturnsleft = []
     mydebuffturnsleft = []
+    myitems = []
+    enitems = []
     turn = 0
     less_dmg = 0
+
+    print("The buying phase has started\n")
+    print("which armour would you like to purchase? (input 0 if you would not like any)\n")
+    for i in range(0, 3):
+        print(armour[i]["name"] + " (" + str(armour[i]["money_cost"]) + " coins) : " + str(i+1))
+    print("You have " + str(my_money) + " coins\n")
+    myarmour = int(input("armour: "))
+    if myarmour in [1, 2, 3]:
+        max_myHP += armour[myarmour - 1]["additional_health"]
+        myHP = max_myHP
+        myBuff.append({"self_dmg_taken_reduc": armour[myarmour - 1]["self_dmg_taken_reduc"]})
+        mybuffturnsleft.append(0)
+        my_money -= armour[myarmour - 1]["money_cost"]
+    while True:
+        print("Which items would you like to purchase?\n")
+        for i in range(0, 3):
+            print(potions[i]["name"] + " (" + str(potions[i]["money_cost"]) + " coins) : " + str(i + 1))
+        print("You have " + str(my_money) + " coins\n")
+        item = int(input("Item: "))
+        if my_money >= potions[item]["money_cost"]:
+            myitems.append()
+
+    weapons = ["Sword", "Shield", "Staff", "Wand"]
+    print("\n The buying phase has started \n choose 2 weapons separated by a space")
+
+    for i in range(0, 4):
+        print(" " + weapons[i] + ": " + str(i+1))
+    while True:
+        try:
+            class1, class2 = input(" weapons: ").split(" ")
+            classes = [guard, tank, mage, medic]
+            class1 = int(class1)
+            class2 = int(class2)
+            if class1 < 5 and class1 > 0 and class2 < 5 and class2 > 0 and class2 != class1:
+                break
+        except:
+            pass
+        print(" incorrect format (are the weapons seperated by a space, valid numbers and are not equal?) ")
+
+
     for i in range(1, 4):
         texting = ""
         if i == 1:
@@ -75,13 +103,13 @@ def initBattle():
         else:
             texting = "third"
         while True:
-            print("Pick your " + texting + " basic spell by typing the corresponding command:")
+            print("Pick your " + texting + " basic spell by typing the corresponding command:\n")
             count = 1
             for b in spellData:
 
                 print(" " + str(b['name']) + " : " + str(count))
                 count += 1
-            a = int(input())
+            a = int(input("\n" + texting + " skill: "))
 
             if a-1 not in spellOptions:
                 break
