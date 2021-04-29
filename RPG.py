@@ -19,15 +19,6 @@ with open('mage_moves.json') as f:
 with open('medic_moves.json') as f:
     medic = json.load(f)
 
-def myRound(n):
-    a = str(n)
-    b, c = a.split(".")
-    if int(c[0]) >= 5:
-        d = int(b) + 1
-        return d
-    else:
-        return int(b)
-
 def initBattle():
     weapons = ["Sword", "Shield", "Staff", "Wand"]
     print("\n The buying phase has started \n choose 2 weapons separated by a space")
@@ -69,6 +60,10 @@ def initBattle():
     enactiveSkillsInfo = []
     myturnsleft = []
     enturnsleft = []
+    enbuffturnsleft = []
+    endebuffturnsleft = []
+    mybuffturnsleft = []
+    mydebuffturnsleft = []
     turn = 0
     less_dmg = 0
     for i in range(1, 4):
@@ -160,6 +155,7 @@ def initBattle():
                 break
         if myStun == 0:
             for i in activeSkillsInfo:
+                x = activeSkillsInfo.index(i)
                 if i["spellID"]['dmg'] > 0:
                     for n in myDebuff:
                         try:
@@ -176,11 +172,11 @@ def initBattle():
                     if less_dmg > 100:
                         less_dmg == 100
                     less_dmg -= 100
-                    dmg = abs(less_dmg / 100) * i["spellID"]['dmg']
+                    dmg = int(abs(less_dmg / 100) * i["spellID"]['dmg'])
                     for n in enBuff:
                         try:
                             if n["reflect_dmgperc"] > 0:
-                                reflected_dmg = myRound((n["reflect_dmgperc"] / 100) * dmg)
+                                reflected_dmg = int((n["reflect_dmgperc"] / 100) * dmg)
                                 dmg -= reflected_dmg
                                 myHP -= reflected_dmg
                                 print("Enemy reflected " + str(reflected_dmg) + " damage")
@@ -190,7 +186,7 @@ def initBattle():
                     for n in enBuff:
                         try:
                             if n["absorbed_dmgperc"] > 0:
-                                absorbed_dmg = myRound((n["absorbed_dmgperc"] / 100) * dmg)
+                                absorbed_dmg = int((n["absorbed_dmgperc"] / 100) * dmg)
                                 dmg -= absorbed_dmg
                                 print("Enemy absorbed " + str(absorbed_dmg) + " damage")
                                 time.sleep(2)
@@ -220,11 +216,11 @@ def initBattle():
                     if less_dmg > 100:
                         less_dmg == 100
                     less_dmg -= 100
-                    dmg = abs(less_dmg / 100) * myRound(i["spellID"]['dmgperc'] / 100 * enHP)
+                    dmg = int(abs(less_dmg / 100) * int(i["spellID"]['dmgperc'] / 100 * enHP))
                     for n in enBuff:
                         try:
                             if n["reflect_dmgperc"] > 0:
-                                reflected_dmg = myRound((n["reflect_dmgperc"] / 100) * dmg)
+                                reflected_dmg = int((n["reflect_dmgperc"] / 100) * dmg)
                                 dmg -= reflected_dmg
                                 myHP -= reflected_dmg
                                 print("Enemy reflected " + str(reflected_dmg) + " damage")
@@ -234,7 +230,7 @@ def initBattle():
                     for n in enBuff:
                         try:
                             if n["absorbed_dmgperc"] > 0:
-                                absorbed_dmg = myRound((n["absorbed_dmgperc"] / 100) * dmg)
+                                absorbed_dmg = int((n["absorbed_dmgperc"] / 100) * dmg)
                                 dmg -= absorbed_dmg
                                 print("Enemy absorbed " + str(absorbed_dmg) + " damage")
                                 time.sleep(2)
@@ -260,7 +256,7 @@ def initBattle():
                         time.sleep(2)
                 if i["spellID"]['healPerc'] > 0:
                     HP = myHP
-                    heal = myRound(i["spellID"]['healPerc'] / 100 * max_myHP)
+                    heal = int(i["spellID"]['healPerc'] / 100 * max_myHP)
                     myHP += heal
                     if myHP > max_myHP:
                         print(str(i["spellID"]['name']) + " healed " + str(max_myHP - HP) + " health points")
@@ -269,15 +265,17 @@ def initBattle():
                     else:
                         print(str(i["spellID"]['name']) + " healed " + str(heal) + " health points")
                         time.sleep(2)
-                if i["spellID"]["self_dmg_taken_reduc"] > 0:
+                if i["spellID"]["self_dmg_taken_reduc"] > 0 and myturnsleft[x] == i["spellID"]["duration"]:
                     myBuff.append({"self_dmg_taken_reduc": i["spellID"]["self_dmg_taken_reduc"]})
-                if i['spellID']["enemy_dmg_deal_reduc"] > 0:
+                    mybuffturnsleft.append(i["spellID"]["duration"])
+                if i['spellID']["enemy_dmg_deal_reduc"] > 0 and myturnsleft[x] == i["spellID"]["duration"]:
                     enDebuff.append({"enemy_dmg_deal_reduc": i['spellID']["enemy_dmg_deal_reduc"]})
+                    endebuffturnsleft.append(i["spellID"]["duration"])
                 if i["spellID"]["stunTime"] > 0:
                     enStun = i["spellID"]["stunTime"]
                 if i["spellID"]["HP_stealperc"] > 0:
                     HP = myHP
-                    steal_hp = myRound((i["spellID"]["HP_stealperc"] / 100) * enHP)
+                    steal_hp = int((i["spellID"]["HP_stealperc"] / 100) * enHP)
                     enHP -= steal_hp
                     myHP += steal_hp
                     if myHP > max_myHP:
@@ -287,14 +285,16 @@ def initBattle():
                     else:
                         print(str(i["spellID"]['name']) + " stole " + str(steal_hp) + " health points")
                         time.sleep(2)
-                if i["spellID"]["reflect_dmgperc"] > 0:
+                if i["spellID"]["reflect_dmgperc"] > 0 and myturnsleft[x] == i["spellID"]["duration"]:
                     myBuff.append({"reflect_dmgperc": i["spellID"]["reflect_dmgperc"]})
-                if i["spellID"]["absorbed_dmgperc"] > 0:
+                    mybuffturnsleft.append(i["spellID"]["duration"])
+                if i["spellID"]["absorbed_dmgperc"] > 0 and myturnsleft[x] == i["spellID"]["duration"]:
                     myBuff.append({"absorbed_dmgperc": i["spellID"]["absorbed_dmgperc"]})
+                    mybuffturnsleft.append(i["spellID"]["duration"])
                 if i["spellID"]["Remove_debuff"] > 0:
                     myDebuff.clear()
                 if i["spellID"]["SP_stealperc"] > 0:
-                    steal_sp = myRound((i["spellID"]["SP_stealperc"]/100)*enSP)
+                    steal_sp = int((i["spellID"]["SP_stealperc"]/100)*enSP)
                     mySP += steal_sp
                     enSP -= steal_sp
                     print(i['spellID']['name'] + " stole " + str(steal_sp) + " skill points")
@@ -314,6 +314,25 @@ def initBattle():
 
 
         turn += 1
+        enindex = 0
+        enbuffindex = 0
+        endebuffindex = 0
+
+        for i in range(0, len(enbuffturnsleft)):
+            if enbuffturnsleft[i - enbuffindex] == 1:
+                del enBuff[i - enbuffindex]
+                del enbuffturnsleft[i - enbuffindex]
+                enbuffindex += 1
+            else:
+                enbuffturnsleft[i - enbuffindex] -= 1
+
+        for i in range(0, len(endebuffturnsleft)):
+            if endebuffturnsleft[i - endebuffindex] == 1:
+                del enDebuff[i - endebuffindex]
+                del endebuffturnsleft[i - endebuffindex]
+                endebuffindex += 1
+            else:
+                endebuffturnsleft[i - endebuffindex] -= 1
 
 
 
@@ -348,24 +367,25 @@ def initBattle():
             enactiveSkills.append(n - 1)
 
             for i in enactiveSkillsInfo:
+                x = enactiveSkillsInfo.index(i)
                 if i["spellID"]['dmg'] > 0:
                     for n in enDebuff:
                         if n["enemy_dmg_deal_reduc"] > 0:
                             less_dmg += n["enemy_dmg_deal_reduc"]
                     for n in myBuff:
                         try:
-                            if n["self_dmg_taken_reduc"] > 0:
-                                less_dmg += n["enemy_dmg_deal_reduc"]
+                            if int(n["self_dmg_taken_reduc"]) > 0:
+                                less_dmg += int(n["self_dmg_taken_reduc"])
                         except:
                             pass
                     if less_dmg > 100:
                         less_dmg == 100
                     less_dmg -= 100
-                    dmg = abs(less_dmg / 100) * i["spellID"]['dmg']
+                    dmg = int(abs(less_dmg / 100) * i["spellID"]['dmg'])
                     for n in myBuff:
                         try:
                             if n["reflect_dmgperc"] > 0:
-                                reflected_dmg = myRound((n["reflect_dmgperc"] / 100) * dmg)
+                                reflected_dmg = int((n["reflect_dmgperc"] / 100) * dmg)
                                 dmg -= reflected_dmg
                                 enHP -= reflected_dmg
                                 print("You reflected " + str(reflected_dmg) + " damage")
@@ -375,7 +395,7 @@ def initBattle():
                     for n in myBuff:
                         try:
                             if n["absorbed_dmgperc"] > 0:
-                                absorbed_dmg = myRound((n["absorbed_dmgperc"] / 100) * dmg)
+                                absorbed_dmg = int((n["absorbed_dmgperc"] / 100) * dmg)
                                 dmg -= absorbed_dmg
                                 print("You absorbed " + str(absorbed_dmg) + " damage")
                                 time.sleep(2)
@@ -396,17 +416,17 @@ def initBattle():
                     for n in myBuff:
                         try:
                             if n["self_dmg_taken_reduc"] > 0:
-                                less_dmg += n["enemy_dmg_deal_reduc"]
+                                less_dmg += n["self_dmg_deal_reduc"]
                         except:
                             pass
                     if less_dmg > 100:
                         less_dmg == 100
                     less_dmg -= 100
-                    dmg = abs(less_dmg / 100) * myRound(i["spellID"]['dmgperc'] / 100 * enHP)
+                    dmg = int(abs(less_dmg / 100) * int(i["spellID"]['dmgperc'] / 100 * enHP))
                     for n in myBuff:
                         try:
                             if n["reflect_dmgperc"] > 0:
-                                reflected_dmg = myRound((n["reflect_dmgperc"] / 100) * dmg)
+                                reflected_dmg = int((n["reflect_dmgperc"] / 100) * dmg)
                                 dmg -= reflected_dmg
                                 enHP -= reflected_dmg
                                 print("You reflected " + str(reflected_dmg) + " damage")
@@ -416,7 +436,7 @@ def initBattle():
                     for n in myBuff:
                         try:
                             if n["absorbed_dmgperc"] > 0:
-                                absorbed_dmg = myRound((n["absorbed_dmgperc"] / 100) * dmg)
+                                absorbed_dmg = int((n["absorbed_dmgperc"] / 100) * dmg)
                                 dmg -= absorbed_dmg
                                 print("You absorbed " + str(absorbed_dmg) + " damage")
                                 time.sleep(2)
@@ -442,7 +462,7 @@ def initBattle():
                         time.sleep(2)
                 if i["spellID"]['healPerc'] > 0:
                     HP = enHP
-                    heal = myRound(i["spellID"]['healPerc'] / 100 * max_enHP)
+                    heal = int(i["spellID"]['healPerc'] / 100 * max_enHP)
                     enHP += heal
                     if enHP > max_enHP:
                         print(str(i["spellID"]['name']) + " healed " + str(max_myHP - HP) + " health points")
@@ -451,15 +471,17 @@ def initBattle():
                     else:
                         print(str(i["spellID"]['name']) + " healed " + str(heal) + " health points")
                         time.sleep(2)
-                if i["spellID"]["self_dmg_taken_reduc"] > 0:
+                if i["spellID"]["self_dmg_taken_reduc"] > 0 and enturnsleft[x] == i["spellID"]["duration"]:
                     enBuff.append({"self_dmg_taken_reduc": i["spellID"]["self_dmg_taken_reduc"]})
-                if i['spellID']["enemy_dmg_deal_reduc"] > 0:
+                    enbuffturnsleft.append(i["spellID"]["duration"])
+                if i['spellID']["enemy_dmg_deal_reduc"] > 0 and enturnsleft[x] == i["spellID"]["duration"]:
                     myDebuff.append({"enemy_dmg_deal_reduc": i['spellID']["enemy_dmg_deal_reduc"]})
+                    mydebuffturnsleft.append(i["spellID"]["duration"])
                 if i["spellID"]["stunTime"] > 0:
                     myStun = i["spellID"]["stunTime"]
                 if i["spellID"]["HP_stealperc"] > 0:
                     HP = enHP
-                    steal_hp = myRound((i["spellID"]["HP_stealperc"] / 100) * enHP)
+                    steal_hp = int((i["spellID"]["HP_stealperc"] / 100) * enHP)
                     myHP -= steal_hp
                     enHP += steal_hp
                     if enHP > max_enHP:
@@ -469,14 +491,16 @@ def initBattle():
                     else:
                         print(str(i["spellID"]['name']) + " stole " + str(steal_hp) + " health points")
                         time.sleep(2)
-                if i["spellID"]["reflect_dmgperc"] > 0:
+                if i["spellID"]["reflect_dmgperc"] > 0 and enturnsleft[x] == i["spellID"]["duration"]:
                     enBuff.append({"reflect_dmgperc": i["spellID"]["reflect_dmgperc"]})
-                if i["spellID"]["absorbed_dmgperc"] > 0:
+                    enbuffturnsleft.append(i["spellID"]["duration"])
+                if i["spellID"]["absorbed_dmgperc"] > 0 and enturnsleft[x] == i["spellID"]["duration"]:
                     enBuff.append({"absorbed_dmgperc": i["spellID"]["absorbed_dmgperc"]})
+                    enbuffturnsleft.append(i["spellID"]["duration"])
                 if i["spellID"]["Remove_debuff"] > 0:
                     enDebuff.clear()
                 if i["spellID"]["SP_stealperc"] > 0:
-                    steal_sp = myRound((i["spellID"]["SP_stealperc"]/100)*enSP)
+                    steal_sp = int((i["spellID"]["SP_stealperc"]/100)*enSP)
                     enSP += steal_sp
                     mySP -= steal_sp
                     print(i['spellID']['name'] + " stole " + str(steal_sp) + " skill points")
@@ -485,8 +509,9 @@ def initBattle():
         if enStun > 0:
             enStun -= 1
 
-        enindex = 0
         myindex = 0
+        mybuffindex = 0
+        mydebuffindex = 0
 
         for i in range(0, len(enturnsleft)):
             if enturnsleft[i - enindex] == 1:
@@ -508,7 +533,25 @@ def initBattle():
                 myindex += 1
 
             else:
-                myturnsleft[myindex] -= 1
+                myturnsleft[i - myindex] -= 1
+
+        for i in range(0, len(mybuffturnsleft)):
+            if mybuffturnsleft[i - mybuffindex] == 1:
+                del myBuff[i - mybuffindex]
+                del mybuffturnsleft[i - mybuffindex]
+                mybuffindex += 1
+            else:
+                mybuffturnsleft[i - mybuffindex] -= 1
+
+        for i in range(0, len(mydebuffturnsleft)):
+            if mydebuffturnsleft[i - mydebuffindex] == 1:
+                del myDebuff[i - mydebuffindex]
+                del mydebuffturnsleft[i - mydebuffindex]
+                mydebuffindex += 1
+            else:
+                mydebuffturnsleft[i - mydebuffindex] -= 1
+
+
 
 while(end):
     command = input("Input a command: ")
