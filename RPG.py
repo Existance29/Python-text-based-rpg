@@ -29,6 +29,8 @@ def initBattle():
     max_enHP = 100
     mySP = 100
     enSP = 100
+    max_mySP = 100
+    max_enSP = 100
     myStun = 0
     enStun = 0
     enspells = 0
@@ -52,46 +54,91 @@ def initBattle():
     mydebuffturnsleft = []
     myitems = []
     enitems = []
+    myitemlist = []
+    enitemlist = []
+    myitemcount = []
+    enitemcount = []
     turn = 0
     less_dmg = 0
 
     print("The buying phase has started\n")
     print("which armour would you like to purchase? (input 0 if you would not like any)\n")
-    for i in range(0, 3):
-        print(armour[i]["name"] + " (" + str(armour[i]["money_cost"]) + " coins) : " + str(i+1))
-    print("You have " + str(my_money) + " coins\n")
-    myarmour = int(input("armour: "))
+    while True:
+        try:
+            for i in range(0, 3):
+                print(armour[i]["name"] + " (" + str(armour[i]["money_cost"]) + " coins) : " + str(i + 1))
+            print("You have " + str(my_money) + " coins\n")
+            myarmour = int(input("armour: "))
+            if myarmour < 4 and myarmour >= 0:
+                break
+        except:
+            pass
+        print(" \nIncorrect format please input again \n")
     if myarmour in [1, 2, 3]:
         max_myHP += armour[myarmour - 1]["additional_health"]
         myHP = max_myHP
         myBuff.append({"self_dmg_taken_reduc": armour[myarmour - 1]["self_dmg_taken_reduc"]})
         mybuffturnsleft.append(0)
         my_money -= armour[myarmour - 1]["money_cost"]
+
     while True:
-        print("Which items would you like to purchase?\n")
-        for i in range(0, 3):
-            print(potions[i]["name"] + " (" + str(potions[i]["money_cost"]) + " coins) : " + str(i + 1))
-        print("You have " + str(my_money) + " coins\n")
-        item = int(input("Item: "))
-        if my_money >= potions[item]["money_cost"]:
-            myitems.append()
+        print("\nWhich items would you like to purchase?\n")
+        while True:
+            try:
+                for i in range(0, 5):
+                    print(potions[i]["name"] + " (" + str(potions[i]["money_cost"]) + " coins) : " + str(i + 1))
+                print("You have " + str(my_money) + " coins\n")
+                item = int(input("Item: "))
+                if item < 6 and item >= 0:
+                    break
+            except:
+                pass
+            print(" \nIncorrect format please input again \n")
+        if item == 0:
+            break
+        if my_money >= potions[item - 1]["money_cost"] and item not in myitemlist:
+            myitems.append(potions[item - 1])
+            myitemcount.append(1)
+            my_money -= potions[item - 1]["money_cost"]
+            myitemlist.append(item)
+        elif my_money >= potions[item - 1]["money_cost"] and item in myitemlist:
+            x = myitems.index(potions[item - 1])
+            myitemcount[x] += 1
+            my_money -= potions[item - 1]["money_cost"]
+        elif my_money < potions[item - 1]["money_cost"]:
+            print("\nYou do not have enough money to buy that")
+        if item == 4:
+            x = len(myitems) - 1
+            max_mySP += 50
+            mySP = max_mySP
+            del myitems[x]
+            del myitemcount[x]
+
 
     weapons = ["Sword", "Shield", "Staff", "Wand"]
-    print("\n The buying phase has started \n choose 2 weapons separated by a space")
-
-    for i in range(0, 4):
-        print(" " + weapons[i] + ": " + str(i+1))
+    classes = [guard, tank, mage, medic]
+    print("\n choose your weapons")
     while True:
         try:
-            class1, class2 = input(" weapons: ").split(" ")
-            classes = [guard, tank, mage, medic]
-            class1 = int(class1)
-            class2 = int(class2)
-            if class1 < 5 and class1 > 0 and class2 < 5 and class2 > 0 and class2 != class1:
+            for i in range(0, 4):
+                print(" " + weapons[i] + ": " + str(i + 1))
+            class1 = int(input("\nFirst weapon: "))
+            if class1 < 5 and class1 > 0:
                 break
         except:
             pass
-        print(" incorrect format (are the weapons seperated by a space, valid numbers and are not equal?) ")
+        print(" \nIncorrect format please input again \n")
+
+    while True:
+        try:
+            for i in range(0, 4):
+                print(" " + weapons[i] + ": " + str(i + 1))
+            class2 = int(input("\nSecond weapon: "))
+            if class2 < 5 and class2 > 0 and class1 != class2:
+                break
+        except:
+            pass
+        print(" \nIncorrect format please input again \n")
 
 
     for i in range(1, 4):
@@ -103,18 +150,18 @@ def initBattle():
         else:
             texting = "third"
         while True:
-            print("Pick your " + texting + " basic spell by typing the corresponding command:\n")
-            count = 1
-            for b in spellData:
-
-                print(" " + str(b['name']) + " : " + str(count))
-                count += 1
-            a = int(input("\n" + texting + " skill: "))
-
-            if a-1 not in spellOptions:
-                break
-            else:
-                print("you already have selected this skill! Select another one ")
+            try:
+                print("Pick your " + texting + " basic spell by typing the corresponding command:\n")
+                count = 1
+                for b in spellData:
+                    print(" " + str(b['name']) + " : " + str(count))
+                    count += 1
+                a = int(input("\n" + texting + " skill: "))
+                if a < 7 and a > 0 and a - 1 not in spellOptions:
+                    break
+            except:
+                pass
+            print(" \nIncorrect format please input again \n")
 
         spellOptions.append(a-1)
 
@@ -123,12 +170,38 @@ def initBattle():
     while enClass2 == enClass1:
         enClass2 = random.randint(0, 3)
     while len(enspellOptions) < 3:
-        enspells = random.randint(0, len(spellOptions))
+        enspells = random.randint(0, len(spellData))
         while enspells in enspellOptions:
-            enspells = random.randint(0, len(spellOptions))
+            enspells = random.randint(0, len(spellData))
         enspellOptions.append(enspells)
-
-
+    enarmour = random.randint(0, 3)
+    if myarmour in [1, 2, 3]:
+        max_enHP += armour[enarmour - 1]["additional_health"]
+        enHP = max_enHP
+        enBuff.append({"self_dmg_taken_reduc": armour[enarmour - 1]["self_dmg_taken_reduc"]})
+        enbuffturnsleft.append(0)
+        en_money -= armour[enarmour - 1]["money_cost"]
+    while True:
+        item = random.randint(0, len(potions))
+        if item == 0:
+            break
+        if en_money >= potions[item - 1]["money_cost"] and item not in enitemlist:
+            enitems.append(potions[item - 1])
+            enitemcount.append(1)
+            en_money -= potions[item - 1]["money_cost"]
+            enitemlist.append(item)
+        elif en_money >= potions[item - 1]["money_cost"] and item in enitemlist:
+            x = len(enitems) - 1
+            enitemcount[x] += 1
+            en_money -= potions[item - 1]["money_cost"]
+        elif my_money < potions[item - 1]["money_cost"]:
+            break
+        if item == 4:
+            x = len(enitems) - 1
+            max_enSP += 50
+            enSP = max_enSP
+            del enitems[x]
+            del enitemcount[x]
 
     n = 0
     while(myHP > 0 and enHP > 0):
@@ -145,19 +218,35 @@ def initBattle():
             print("\n---------------------------------------------------")
 
         while myStun == 0:
-            print("\n Pick a skill by typing the corresponding command:")
-            print(" " + spellData[spellOptions[0]]['name'] + ": 1")
-            print(" " + spellData[spellOptions[1]]['name'] + ": 2")
-            print(" " + spellData[spellOptions[2]]['name'] + ": 3")
-            print(" " + classes[class1 - 1][0]['name'] + ": 4")
-            print(" " + classes[class1 - 1][1]['name'] + ": 5")
-            print(" " + classes[class1 - 1][2]['name'] + ": 6")
-            print(" " + classes[class2 - 1][0]['name'] + ": 7")
-            print(" " + classes[class2 - 1][1]['name'] + ": 8")
-            print(" " + classes[class2 - 1][2]['name'] + ": 9")
-            n = int(input(" command: "))
+            while True:
+                try:
+                    print("\n Pick a skill by typing the corresponding command:")
+                    print(" " + spellData[spellOptions[0]]['name'] + ": 1")
+                    print(" " + spellData[spellOptions[1]]['name'] + ": 2")
+                    print(" " + spellData[spellOptions[2]]['name'] + ": 3")
+                    print(" " + classes[class1 - 1][0]['name'] + " (" + str(
+                        classes[class1 - 1][0]['SP_cost']) + " skill points): 4")
+                    print(" " + classes[class1 - 1][1]['name'] + " (" + str(
+                        classes[class1 - 1][1]['SP_cost']) + " skill points): 5")
+                    print(" " + classes[class1 - 1][2]['name'] + " (" + str(
+                        classes[class1 - 1][2]['SP_cost']) + " skill points): 6")
+                    print(" " + classes[class2 - 1][0]['name'] + " (" + str(
+                        classes[class2 - 1][0]['SP_cost']) + " skill points): 7")
+                    print(" " + classes[class2 - 1][1]['name'] + " (" + str(
+                        classes[class2 - 1][1]['SP_cost']) + " skill points): 8")
+                    print(" " + classes[class2 - 1][2]['name'] + " (" + str(
+                        classes[class2 - 1][2]['SP_cost']) + " skill points): 9")
+                    for i in range(10, len(myitems) + 10):
+                        print(" " + str(myitems[i - 10]["name"]) + " (inventory: " + str(myitemcount[i - 10]) + "): " + str(i))
+                    x = len(myitems)
+                    n = int(input(" command: "))
+                    if n < 10 + x and n > 0:
+                        break
+                except:
+                    pass
+                print(" \nIncorrect format please input again")
             if (n-1) in myactiveSkills:
-                print("That skill is already in use! try again")
+                print("\nThat skill is already in use! try again")
             elif 3 < n < 7 and classes[class1 - 1][n - 4]["SP_cost"] > mySP:
                 print("You do not have enough skill points! try again")
             elif 6 < n < 10 and classes[class2 - 1][n - 7]["SP_cost"] > mySP:
@@ -179,6 +268,15 @@ def initBattle():
                     mySP -= cost
                     activeSkillsInfo.append({"spellID": classes[class2 - 1][n - 7]})
                     myturnsleft.append(int(classes[class2 - 1][n - 7]["duration"]))
+                elif n > 9:
+                    print("\nYou used " + myitems[n - 10]["name"])
+                    activeSkillsInfo.append({"spellID": myitems[n - 10]})
+                    myturnsleft.append(int(myitems[n - 10]["duration"]))
+                    if myitemcount[n - 10] == 1:
+                        del myitems[n - 10]
+                        del myitemcount[n - 10]
+                    elif myitemcount[n - 10] > 1:
+                        myitemcount[n - 10] -= 1
                 myactiveSkills.append(n-1)
                 break
         if myStun == 0:
@@ -194,7 +292,7 @@ def initBattle():
                     for n in enBuff:
                         try:
                             if n["self_dmg_taken_reduc"] > 0:
-                                less_dmg += n["self_dmg_deal_reduc"]
+                                less_dmg += n["self_dmg_taken_reduc"]
                         except:
                             pass
                     if less_dmg > 100:
@@ -327,6 +425,14 @@ def initBattle():
                     enSP -= steal_sp
                     print(i['spellID']['name'] + " stole " + str(steal_sp) + " skill points")
                     time.sleep(2)
+                if i["spellID"]["self_dmg"] > 0:
+                    myHP -= i["spellID"]["self_dmg"]
+                    print("You hit yourself with the " + str(i["spellID"]['name']) + " and lost " + str(i["spellID"]["self_dmg"]) + " health points")
+                    time.sleep(2)
+        if enHP < 0:
+            print("\nYou won!")
+            print("You defeated the enemy")
+            break
         if myStun > 0:
             myStun -= 1
 
@@ -365,7 +471,7 @@ def initBattle():
 
 
         if enStun == 0:
-            n = random.randint(1, 9)
+            n = random.randint(1, 9 + len(enitems))
             while (n - 1) in enactiveSkills:
                 n = random.randint(1, 9)
             while 3 < n < 7 and classes[enClass1 - 1][n - 4]["SP_cost"] > enSP:
@@ -377,21 +483,30 @@ def initBattle():
                 while 3 < n < 7 and classes[enClass1 - 1][n - 4]["SP_cost"] > enSP:
                     n = random.randint(1, 9)
             if n < 4:
-                print("\nOpponent used " + spellData[spellOptions[n - 1]]['name'])
+                print("\nEnemy used " + spellData[spellOptions[n - 1]]['name'])
                 enactiveSkillsInfo.append({"spellID": spellData[spellOptions[n - 1]]})
                 enturnsleft.append(int(spellData[spellOptions[n - 1]]["duration"]))
             elif 3 < n < 7:
                 cost = classes[enClass1 - 1][n - 4]["SP_cost"]
-                print("\nOpponent used " + classes[class1 - 1][n - 4]['name'])
+                print("\nEnemy used " + classes[class1 - 1][n - 4]['name'])
                 enSP -= cost
                 enactiveSkillsInfo.append({"spellID": classes[class1 - 1][n - 4]})
                 enturnsleft.append(int(classes[class1 - 1][n - 4]["duration"]))
             elif 6 < n < 10:
                 cost = classes[enClass2 - 1][n - 7]["SP_cost"]
-                print("\nOpponent used " + classes[class2 - 1][n - 7]['name'])
+                print("\nEnemy used " + classes[class2 - 1][n - 7]['name'])
                 enSP -= cost
                 enactiveSkillsInfo.append({"spellID": classes[class2 - 1][n - 7]})
                 enturnsleft.append(int(classes[class2 - 1][n - 7]["duration"]))
+            elif n > 9:
+                print("\nEnemy used " + enitems[n - 10]["name"])
+                enactiveSkillsInfo.append({"spellID": enitems[n - 10]})
+                enturnsleft.append(int(enitems[n - 10]["duration"]))
+                if enitemcount[n - 10] == 1:
+                    del enitems[n - 10]
+                    del enitemcount[n - 10]
+                elif enitemcount[n - 10] > 1:
+                    enitemcount[n - 10] -= 1
             enactiveSkills.append(n - 1)
 
             for i in enactiveSkillsInfo:
@@ -533,6 +648,10 @@ def initBattle():
                     mySP -= steal_sp
                     print(i['spellID']['name'] + " stole " + str(steal_sp) + " skill points")
                     time.sleep(2)
+                if i["spellID"]["self_dmg"] > 0:
+                    enHP -= i["spellID"]["self_dmg"]
+                    print("Enemy hit himself with the " + str(i["spellID"]['name']) + " and lost " + str(i["spellID"]["self_dmg"]) + " health points")
+                    time.sleep(2)
 
         if enStun > 0:
             enStun -= 1
@@ -580,6 +699,15 @@ def initBattle():
                 mydebuffturnsleft[i - mydebuffindex] -= 1
 
 
+        mySP += 5
+        if mySP > max_mySP:
+            mySP = max_mySP
+        enSP += 5
+        if enSP > max_enSP:
+            enSP = max_enSP
+    if myHP < 0:
+        print("\nYou Lost :(")
+        print("The enemy defeated you")
 
 while(end):
     command = input("Input a command: ")
@@ -596,7 +724,7 @@ while(end):
       initBattle()
     if command.startswith("help"):
 
-      print("\n ===commands=== \n basicspellinfo: shows all basic spells and their information \n classspellinfo: shows all classes' spells and their information \n fight: initiate a fight with a AI")
+      print("\n ===commands=== \n basicspellinfo: shows all basic spells and their information \n classspellinfo: shows all classes' spells and their information \n potioninfo: shows all potions and their information \n armourinfo: show all armour and their information\n fight: initiate a fight with a AI")
     if command.startswith("classspellinfo"):
         classes = [guard, tank, mage, medic]
         print("\n ===Guard Class spells===\n weapon: sword")
@@ -612,7 +740,13 @@ while(end):
         for key in medic:
                 print(" "+key['name'] + ": " + key['desc'])
 
+    if command.startswith("potioninfo"):
+        for key in potions:
+            print("\n "+key['name']+": "+ key['desc'])
 
+    if command.startswith("armourinfo"):
+        for key in armour:
+            print("\n "+key['name']+": "+ key['desc'])
 
 
     if command.startswith("exit"):
