@@ -726,7 +726,7 @@ while(end):
       initBattle()
     if command.startswith("help"):
 
-      print("\n ===commands=== \n basicspellinfo: shows all basic spells and their information \n classspellinfo: shows all classes' spells and their information \n potioninfo: shows all potions and their information \n armourinfo: show all armour and their information\n fight: initiate a fight with a AI")
+      print("\n ===commands=== \n instructions: shows the instructions of the game \n basicspellinfo: shows all basic spells and their information \n classspellinfo: shows all classes' spells and their information \n potioninfo: shows all potions and their information \n armourinfo: show all armour and their information\n fight: initiate a fight with a AI")
     if command.startswith("classspellinfo"):
         classes = [guard, tank, mage, medic]
         print("\n ===Guard Class spells===\n weapon: sword")
