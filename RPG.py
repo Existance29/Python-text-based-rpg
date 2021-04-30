@@ -19,6 +19,7 @@ with open('mage_moves.json') as f:
 with open('medic_moves.json') as f:
     medic = json.load(f)
 
+print("Welcome! Type help to see all avaliable commands")
 def initBattle():
 
     my_money = 1000
