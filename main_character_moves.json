@@ -47,7 +47,7 @@
     },
   {
     "name": "Food",
-    "desc": "gains 5 health points",
+    "desc": "Gains 5 health points",
     "dmg": 0,
     "dmgperc": 0,
     "self_dmg": 0,

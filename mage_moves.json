@@ -1,7 +1,7 @@
 [
   {
-    "name": "lightning bolt",
-    "desc": "shoots down lightning, enemy deals 20% less damage the next 3 turns",
+    "name": "lightning Bolt",
+    "desc": "Shoots down lightning, enemy deals 20% less damage the next 3 turns",
     "dmg": 0,
     "dmgperc": 0,
     "self_dmg": 0,
@@ -22,8 +22,8 @@
     "Remove_debuff": 0
   },
   {
-    "name": "potion of buff",
-    "desc": "deal 20% damage and reduce damage taken by 20% for 2 turns",
+    "name": "Potion Of Buff",
+    "desc": "Deal 20% damage and reduce damage taken by 20% for 2 turns",
     "dmg": 0,
     "dmgperc": 20,
     "self_dmg": 0,
@@ -44,8 +44,8 @@
     "Remove_debuff": 0
   },
   {
-    "name": "fire tornado",
-    "desc": "deals a base of 30 each turn for 2 turns",
+    "name": "Fire Tornado",
+    "desc": "Deals a base of 30 each turn for 2 turns",
     "dmg": 30,
     "dmgperc": 0,
     "self_dmg": 0,

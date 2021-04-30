@@ -1,6 +1,6 @@
 [
   {
-    "name": "force field",
+    "name": "Force Field",
     "desc": "Uses a force field, takes 30% less damage for 2 turns",
     "dmg": 0,
     "dmgperc":0,
@@ -22,8 +22,8 @@
     "Remove_debuff": 0
   },
   {
-    "name": "spiky shield",
-    "desc": "uses a spiky shield, reflects 20% of damage taken back to the enemy for the next 2 turns",
+    "name": "Spiky Shield",
+    "desc": "Uses a spiky shield, reflects 20% of damage taken back to the enemy for the next 2 turns",
     "dmg": 0,
     "dmgperc": 0,
     "self_dmg": 0,
@@ -44,8 +44,8 @@
     "Remove_debuff": 0
   },
   {
-    "name": "damage potion",
-    "desc": "absorbs 40% of damage received and use it next turn",
+    "name": "Damage Potion",
+    "desc": "Absorbs 40% of damage received and use it next turn",
     "dmg": 0,
     "dmgperc": 0,
     "self_dmg": 0,

@@ -68,7 +68,7 @@
 
   },
   {
-    "name": "Magic jar",
+    "name": "Magic Jar",
     "desc": "increase max skill points by 50",
     "dmg": 0,
     "dmgperc": 0,
@@ -91,7 +91,7 @@
     "Remove_debuff": 0
   },
   {
-    "name": "Potion of stealth",
+    "name": "Potion Of Stealth",
     "desc": "Take 50% less damage for the next turn",
     "dmg": 0,
     "dmgperc": 0,
